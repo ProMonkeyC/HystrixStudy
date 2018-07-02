@@ -1,6 +1,3 @@
-/**
- * Copyright 2018 asiainfo Inc.
- **/
 package com.hystrix.demo;
 
 import com.netflix.hystrix.HystrixCommandGroupKey;

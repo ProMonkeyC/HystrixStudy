@@ -62,8 +62,9 @@ public class HelloObserveCommand extends HystrixCommand<String> {
 
       System.out.println("observable single result: " + observable.toBlocking().single());//single()阻塞
 
+
       //注册观察者事件,subscribe()是非阻塞的
-      observable.subscribe(new Action1<String>() {
+      observable.subscribe(new Action1<String>() { //冷响应式调用，直到你订阅这个Command，Hystrix才会执行Command
         @Override
         public void call(String s) {
           //s为 HelloObserveCommand 返回结果
@@ -73,7 +74,7 @@ public class HelloObserveCommand extends HystrixCommand<String> {
       });
 
 
-      observable.subscribe(new Observer<String>() {
+      observable.subscribe(new Observer<String>() {  //.热响应式调用，不管你是否已经订阅Hystrix会立即执行Command，Hystrix会提供一种“ReplaySubject”方式进行过滤，所以不必担心已经执行但是还没被订阅的Command的结果会丢失。
         @Override
         public void onCompleted() {
           //最终执行，onNext/onError后执行

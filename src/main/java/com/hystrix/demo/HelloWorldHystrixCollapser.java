@@ -25,6 +25,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author chenlong
  * Created on 2018/6/11
+ *
+ * There are 2 styles of request-collapsing supported by Hystrix: request-scoped and globally-scoped.
+ * This is configured at collapser construction, and defaulted to request-scoped.
+ * A request-scoped collapser collects a batch per HystrixRequestContext,
+ * while a globally-scoped collapser collects a batch across multiple HystrixRequestContexts.
+ * As a result, if your downstream dependencies cannot handle multiple HystrixRequestContexts in a single command invocation, request-scoped collapsing is the proper choice.
  */
 public class HelloWorldHystrixCollapser extends HystrixCollapser<List<String>, String, Integer> {
 
